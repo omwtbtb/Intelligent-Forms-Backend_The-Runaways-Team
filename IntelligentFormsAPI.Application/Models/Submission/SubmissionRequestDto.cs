@@ -1,4 +1,4 @@
-﻿using IntelligentFormsAPI.Domain.Entities;
+using IntelligentFormsAPI.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

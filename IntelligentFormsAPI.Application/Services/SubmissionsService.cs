@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+using AutoMapper;
+
 using IntelligentFormsAPI.Application.Interfaces;
 using IntelligentFormsAPI.Application.Models.Submission;
 using IntelligentFormsAPI.Domain.Entities;
@@ -29,7 +30,6 @@ namespace IntelligentFormsAPI.Application.Services
 
         public async Task DeleteSubmissionAsync(Guid id)
         {
-
             var submission = await submissionRepository.GetSubmissionByIdAsync(id);
 
             await submissionRepository.DeleteSubmissionAsync(submission);

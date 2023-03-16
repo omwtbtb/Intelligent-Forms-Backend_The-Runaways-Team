@@ -1,4 +1,4 @@
-﻿namespace IntelligentFormsAPI.Domain.Entities
+namespace IntelligentFormsAPI.Domain.Entities
 {
     public record Submission
     {
