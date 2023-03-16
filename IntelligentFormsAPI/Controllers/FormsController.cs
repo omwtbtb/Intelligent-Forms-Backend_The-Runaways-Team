@@ -22,7 +22,6 @@ namespace IntelligentFormsAPI.Controllers
         [SwaggerOperation(Summary = "Get a form by id")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetFormTemplateById(Guid id)
-
         {
             try
             {

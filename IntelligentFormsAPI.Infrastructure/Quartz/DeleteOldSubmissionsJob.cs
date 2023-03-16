@@ -14,7 +14,6 @@ namespace IntelligentFormsAPI.Infrastructure.Quartz
         private readonly IFormsRepository formsRepository;
         private readonly ISubmissionsRepository submissionsRepository;
 
-
         public DeleteOldSubmissionsJob(IFormsRepository formsRepository, ISubmissionsRepository submissionsRepository)
         {
             this.formsRepository = formsRepository;
@@ -37,8 +36,7 @@ namespace IntelligentFormsAPI.Infrastructure.Quartz
                     if(ts.Days > formDataRetentionPeriod)
                     {
                         await submissionsRepository.DeleteSubmissionAsync(submission);
-                    }
-                        
+                    }  
                 }
             }
         }

@@ -24,6 +24,8 @@ builder.Services.AddScoped<ISubmissionsService, SubmissionsService>();
 builder.Services.AddScoped<IFormsRepository, FormsRepository>();
 builder.Services.AddScoped<IFormsService, FormsService>();
 
+builder.Services.AddScoped<IFormsScannerService, FormsScannerService>();
+
 builder.Services.AddScoped<IValidator<UserSignUpDto>, UserSignUpValidator>();
 
 
