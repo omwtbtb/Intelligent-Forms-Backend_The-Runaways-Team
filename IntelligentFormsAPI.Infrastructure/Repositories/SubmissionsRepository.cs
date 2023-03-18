@@ -1,4 +1,4 @@
-﻿using IntelligentFormsAPI.Domain.Entities;
+using IntelligentFormsAPI.Domain.Entities;
 using IntelligentFormsAPI.Infrastructure.Contexts;
 using IntelligentFormsAPI.Infrastructure.Interfaces;
 using Microsoft.EntityFrameworkCore;

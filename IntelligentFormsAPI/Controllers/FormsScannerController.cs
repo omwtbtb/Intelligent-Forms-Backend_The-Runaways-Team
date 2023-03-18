@@ -1,4 +1,4 @@
-﻿using IntelligentFormsAPI.Application.Interfaces;
+using IntelligentFormsAPI.Application.Interfaces;
 using IntelligentFormsAPI.Domain.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
