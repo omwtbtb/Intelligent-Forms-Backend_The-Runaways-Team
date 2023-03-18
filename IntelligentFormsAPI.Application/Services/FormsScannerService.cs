@@ -2,6 +2,7 @@
 using Azure.AI.FormRecognizer.DocumentAnalysis;
 using IntelligentFormsAPI.Application.Interfaces;
 using Microsoft.AspNetCore.Http;
+using System.Drawing;
 
 namespace IntelligentFormsAPI.Application.Services
 {
@@ -10,91 +11,103 @@ namespace IntelligentFormsAPI.Application.Services
         private readonly string ***REMOVED*** = "403bba90b1f84c31b9a8f585d67ea691";
         private readonly string endpoint = "https://formrecognizer137d.cognitiveservices.azure.com/";
 
-        public async Task<Dictionary<string, string>> ScanIdentityCardAsync(IFormFile file)
+        public async Task<Dictionary<string, string>> ScanIdentityCardAsync(string base64Image)
         {
             var client = new DocumentAnalysisClient(new Uri(endpoint), new AzureKeyCredential(***REMOVED***));
 
-            var operation = await client.AnalyzeDocumentAsync(WaitUntil.Completed, "prebuilt-document", file.OpenReadStream());
-
-
-            var fieldMap = new Dictionary<string, string>();
-
-            foreach (var kvp in operation.Value.KeyValuePairs)
+            byte[] imageBytes = Convert.FromBase64String(base64Image);
+            using (MemoryStream stream = new MemoryStream(imageBytes))
             {
+                var operation = await client.AnalyzeDocumentAsync(WaitUntil.Completed, "prebuilt-document", stream);
 
-                if (kvp.Key is not null && kvp.Value is not null)
+                var fieldMap = new Dictionary<string, string>();
+
+                foreach (var kvp in operation.Value.KeyValuePairs)
                 {
-                    if (kvp.Key.Content.Equals("Nume/Nom/Last name"))
+                    if (kvp.Key is not null && kvp.Value is not null)
                     {
-                        var split = kvp.Value.Content.Split("\n");
-                        fieldMap.Add("CNP", split[0]);
-                        fieldMap.Add(kvp.Key.Content, split[1]);
+                        if (kvp.Key.Content.Equals("Nume/Nom/Last name"))
+                        {
+                            var split = kvp.Value.Content.Split("\n");
+                            fieldMap.Add("CNP", split[0]);
+                            fieldMap.Add(kvp.Key.Content, split[1]);
+                        }
+                        else if (kvp.Key.Content.Equals("SERIA RB NR"))
+                        {
+                            var split = kvp.Key.Content.Split(" ");
+                            fieldMap.Add(split[0], split[1]);
+                            fieldMap.Add(split[2], kvp.Value.Content);
+                        }
+                        else
+                        {
+                            fieldMap.Add(kvp.Key.Content, kvp.Value.Content);
+                        }
                     }
-                    else if (kvp.Key.Content.Equals("SERIA RB NR"))
-                    {
-                        var split = kvp.Key.Content.Split(" ");
-                        fieldMap.Add(split[0], split[1]);
-                        fieldMap.Add(split[2], kvp.Value.Content);
-                    }
-                    else
-                        fieldMap.Add(kvp.Key.Content, kvp.Value.Content);
                 }
+
+                return fieldMap;
             }
-
-            return fieldMap;
-
         }
 
-        public async Task<Dictionary<string, string>> ScanPassportAsync(IFormFile file)
+        public async Task<Dictionary<string, string>> ScanPassportAsync(string base64Image)
         {
             var credential = new AzureKeyCredential(***REMOVED***);
             var client = new DocumentAnalysisClient(new Uri(endpoint), credential);
 
-            AnalyzeDocumentOperation operation = await client.AnalyzeDocumentAsync(WaitUntil.Completed, "prebuilt-idDocument", file.OpenReadStream());
-
-            AnalyzeResult identityDocuments = operation.Value;
-
-            AnalyzedDocument identityDocument = identityDocuments.Documents.Single();
-
-            var fieldMap = new Dictionary<string, string>();
-
-            foreach (var item in identityDocument.Fields)
+            byte[] imageBytes = Convert.FromBase64String(base64Image);
+            using (MemoryStream stream = new MemoryStream(imageBytes))
             {
-                fieldMap.Add(item.Key, item.Value.Content);
-            }
+                AnalyzeDocumentOperation operation = await client.AnalyzeDocumentAsync(WaitUntil.Completed, "prebuilt-idDocument", stream);
 
-            return fieldMap;
-        }
+                AnalyzeResult identityDocuments = operation.Value;
 
-        public async Task<Dictionary<string, string>> ScanVehicleIdentityCardAsync(IFormFile file)
-        {
-            var client = new DocumentAnalysisClient(new Uri(endpoint), new AzureKeyCredential(***REMOVED***));
+                AnalyzedDocument identityDocument = identityDocuments.Documents.Single();
 
-            var operation = await client.AnalyzeDocumentAsync(WaitUntil.Completed, "prebuilt-document", file.OpenReadStream());
+                var fieldMap = new Dictionary<string, string>();
 
-
-            var fieldMap = new Dictionary<string, string>();
-
-            foreach (var kvp in operation.Value.KeyValuePairs)
-            {
-
-                if (kvp.Key is not null && kvp.Value is not null)
+                foreach (var item in identityDocument.Fields)
                 {
-                   fieldMap.Add(kvp.Key.Content, kvp.Value.Content);
+                    fieldMap.Add(item.Key, item.Value.Content);
                 }
-            }
 
-            return fieldMap;
+                return fieldMap;
+            }
         }
 
-        public async Task<string> ScanAnyDocumentAsync(IFormFile file)
+        public async Task<Dictionary<string, string>> ScanVehicleIdentityCardAsync(string base64Image)
         {
             var client = new DocumentAnalysisClient(new Uri(endpoint), new AzureKeyCredential(***REMOVED***));
 
-            var operation = await client.AnalyzeDocumentAsync(WaitUntil.Completed, "prebuilt-document", file.OpenReadStream());
+            byte[] imageBytes = Convert.FromBase64String(base64Image);
+            using (MemoryStream stream = new MemoryStream(imageBytes))
+            {
+                var operation = await client.AnalyzeDocumentAsync(WaitUntil.Completed, "prebuilt-document", stream);
 
-            return operation.Value.Content;
-            
+                var fieldMap = new Dictionary<string, string>();
+
+                foreach (var kvp in operation.Value.KeyValuePairs)
+                {
+                    if (kvp.Key is not null && kvp.Value is not null)
+                    {
+                        fieldMap.Add(kvp.Key.Content, kvp.Value.Content);
+                    }
+                }
+
+                return fieldMap;
+            }
+        }
+
+        public async Task<string> ScanAnyDocumentAsync(string base64Image)
+        {
+            var client = new DocumentAnalysisClient(new Uri(endpoint), new AzureKeyCredential(***REMOVED***));
+
+            byte[] imageBytes = Convert.FromBase64String(base64Image);
+            using (MemoryStream stream = new MemoryStream(imageBytes))
+            {
+                var operation = await client.AnalyzeDocumentAsync(WaitUntil.Completed, "prebuilt-document", stream);
+
+                return operation.Value.Content;
+            }
         }
     }
 }

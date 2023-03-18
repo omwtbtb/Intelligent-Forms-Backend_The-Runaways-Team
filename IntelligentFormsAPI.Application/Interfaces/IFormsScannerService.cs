@@ -4,9 +4,9 @@ namespace IntelligentFormsAPI.Application.Interfaces
 {
     public interface IFormsScannerService
     {
-        public Task<Dictionary<string, string>> ScanIdentityCardAsync(IFormFile file);
-        public Task<Dictionary<string, string>> ScanPassportAsync(IFormFile file);
-        public Task<Dictionary<string, string>> ScanVehicleIdentityCardAsync(IFormFile file);
-        public Task<string> ScanAnyDocumentAsync(IFormFile file);
+        public Task<Dictionary<string, string>> ScanIdentityCardAsync(string file);
+        public Task<Dictionary<string, string>> ScanPassportAsync(string file);
+        public Task<Dictionary<string, string>> ScanVehicleIdentityCardAsync(string file);
+        public Task<string> ScanAnyDocumentAsync(string file);
     }
 }

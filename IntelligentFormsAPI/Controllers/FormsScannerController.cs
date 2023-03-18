@@ -20,28 +20,29 @@ namespace IntelligentFormsAPI.Controllers
 
         [SwaggerOperation(Summary = "Scan a form")]
         [HttpPost, Route("forms-scanner")]
-        public async Task<IActionResult> ScanFormAsync(IFormFile file, [FromQuery] string documentType)
+        public async Task<IActionResult> ScanFormAsync([FromBody]string fileString, [FromQuery] string documentType)
         {
             try
             {
                 var scan = Enum.Parse<ScannableDocumentType>(documentType);
-                
-                switch(scan)
+                var formattedFileString = fileString.Split(',')[1];
+
+                switch (scan)
                 {
                     case ScannableDocumentType.Identity_Card:
-                        var identityCard = await formsScannerService.ScanIdentityCardAsync(file);
+                        var identityCard = await formsScannerService.ScanIdentityCardAsync(formattedFileString);
                         return Ok(identityCard);
 
                     case ScannableDocumentType.Passport_Card:
-                        var passport = await formsScannerService.ScanPassportAsync(file);
+                        var passport = await formsScannerService.ScanPassportAsync(formattedFileString);
                         return Ok(passport);
 
                     case ScannableDocumentType.Vehicle_Identity_Card:
-                        var vehicleIdentityCard = await formsScannerService.ScanVehicleIdentityCardAsync(file);
+                        var vehicleIdentityCard = await formsScannerService.ScanVehicleIdentityCardAsync(formattedFileString);
                         return Ok(vehicleIdentityCard);
 
                     case ScannableDocumentType.Any_Document:
-                        var anyDocument = await formsScannerService.ScanAnyDocumentAsync(file);
+                        var anyDocument = await formsScannerService.ScanAnyDocumentAsync(formattedFileString);
                         return Ok(anyDocument);
 
                     default: return BadRequest("Unknown document type");
@@ -55,5 +56,6 @@ namespace IntelligentFormsAPI.Controllers
             }
         }
     }
+    
 }
 
