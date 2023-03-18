@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+
+using AutoMapper;
 using IntelligentFormsAPI.Application.Models.Submission;
 using IntelligentFormsAPI.Domain.Entities;
 using System.Text;

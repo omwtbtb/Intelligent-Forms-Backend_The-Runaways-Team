@@ -29,6 +29,13 @@ namespace IntelligentFormsAPI.Infrastructure.Repositories
             await eFContext.SaveChangesAsync();
         }
 
+        public async Task DeleteSubmissionsAsync(List<Submission> submissions)
+        {
+            eFContext.Submissions.RemoveRange(submissions);
+
+            await eFContext.SaveChangesAsync(); 
+        }
+
         public async Task<List<Submission>> GetSubmissionByFormIdAsync(Guid formId)
         {
             return await eFContext.Submissions.Where(s => s.FormId.Equals(formId)).ToListAsync();

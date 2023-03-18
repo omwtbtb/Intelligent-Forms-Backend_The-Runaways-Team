@@ -1,3 +1,4 @@
+
 ﻿using AutoMapper;
 using IntelligentFormsAPI.Application.Interfaces;
 using IntelligentFormsAPI.Application.Models.Submission;
@@ -27,9 +28,8 @@ namespace IntelligentFormsAPI.Application.Services
             return mapper.Map<SubmissionRequestDto>(submission);
         }
 
-        public async Task DeleteSubmissionAsync(Guid id)
+        public async Task DeleteSubmissionByIdAsync(Guid id)
         {
-
             var submission = await submissionRepository.GetSubmissionByIdAsync(id);
 
             await submissionRepository.DeleteSubmissionAsync(submission);
@@ -52,7 +52,7 @@ namespace IntelligentFormsAPI.Application.Services
             return mapper.Map<SubmissionRequestDto>(savedSubmission);
         }
 
-        public async Task<List<SubmissionRequestDto>> GetSubmissionByFormId(Guid formId)
+        public async Task<List<SubmissionRequestDto>> GetSubmissionByFormIdAsync(Guid formId)
         {
             var submissions = await submissionRepository.GetSubmissionByFormIdAsync(formId);
 

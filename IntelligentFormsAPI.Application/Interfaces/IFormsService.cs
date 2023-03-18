@@ -7,10 +7,10 @@ namespace IntelligentFormsAPI.Application.Interfaces
     public interface IFormsService
     {
 
-        public Task<FormCreateResponseDto?> AddForm(FormDto form, Guid userId);
-        public Task<FormCreateResponseDto?> GetForm(Guid Id);
+        public Task<FormCreateResponseDto?> CreateFormAsync(FormDto form, Guid userId);
+        public Task<FormCreateResponseDto?> GetFormByIdAsync(Guid Id);
         public Task<List<FormCreateResponseDto>?> GetFormsByUserIdAsync(Guid userID);
-        public Task UpdateForm(Guid Id, FormDto form);
-        public Task DeleteForm(Guid Id);
+        public Task UpdateFormByIdAsync(Guid Id, FormDto form);
+        public Task DeleteFormByIdAsync(Guid Id);
     }
 }

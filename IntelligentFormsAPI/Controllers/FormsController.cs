@@ -6,7 +6,8 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace IntelligentFormsAPI.Controllers
 {
-    [Route("api/v1/forms")]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/forms")]
     [ApiController]
     public class FormsController : ControllerBase
     {
@@ -21,11 +22,11 @@ namespace IntelligentFormsAPI.Controllers
 
         [SwaggerOperation(Summary = "Get a form by id")]
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetFormTemplateById(Guid id)
+        public async Task<IActionResult> GetFormTemplateByIdAsync(Guid id)
         {
             try
             {
-                var form = await formService.GetForm(id);
+                var form = await formService.GetFormByIdAsync(id);
 
                 return Ok(form);
             }
@@ -39,7 +40,7 @@ namespace IntelligentFormsAPI.Controllers
 
         [SwaggerOperation(Summary = "Get all forms by user id")]
         [HttpGet]
-        public async Task<IActionResult> GetFormTemplatesByUserId([FromQuery] Guid userid)
+        public async Task<IActionResult> GetFormTemplatesByUserIdAsync([FromQuery] Guid userid)
         {
             try
             {
@@ -57,11 +58,11 @@ namespace IntelligentFormsAPI.Controllers
 
         [SwaggerOperation(Summary = "Create a new form")]
         [HttpPost]
-        public async Task<IActionResult> AddFormTemplate(FormDto formDto, [FromQuery] Guid userId)
+        public async Task<IActionResult> CreateFormAsync(FormDto formDto, [FromQuery] Guid userId)
         {
             try
             {
-                var form = await formService.AddForm(formDto, userId);
+                var form = await formService.CreateFormAsync(formDto, userId);
 
                 return Ok(form);
             }
@@ -76,11 +77,11 @@ namespace IntelligentFormsAPI.Controllers
         [SwaggerOperation(Summary = "Update a form")]
         [HttpPut("{id}")]
 
-        public async Task<IActionResult> UpdateFormTemplate([FromBody] FormDto formDto, Guid id)
+        public async Task<IActionResult> UpdateFormByIdAsync([FromBody] FormDto formDto, Guid id)
         {
             try
             {
-                await formService.UpdateForm(id, formDto);
+                await formService.UpdateFormByIdAsync(id, formDto);
 
                 return Ok();
             }
@@ -94,11 +95,11 @@ namespace IntelligentFormsAPI.Controllers
 
         [SwaggerOperation(Summary = "Delete a form")]
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteFormTemplate(Guid id)
+        public async Task<IActionResult> DeleteFormByIdAsync(Guid id)
         {
             try
             {
-                await formService.DeleteForm(id);
+                await formService.DeleteFormByIdAsync(id);
 
                 return NoContent();
             }

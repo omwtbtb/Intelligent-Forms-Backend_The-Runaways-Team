@@ -14,7 +14,7 @@ namespace IntelligentFormsAPI.Infrastructure.Repositories
             this.context = context;
         }
 
-        public async Task<User?> GetUserById(Guid id)
+        public async Task<User?> GetUserByIdAsync(Guid id)
         {
             var user = await context.Users.FindAsync(id);
             return user;
@@ -26,7 +26,7 @@ namespace IntelligentFormsAPI.Infrastructure.Repositories
             return user;
         }
 
-        public async Task<User?> GetUserByName(string name)
+        public async Task<User?> GetUserByNameAsync(string name)
         {
             var user = await context.Users.FirstOrDefaultAsync(x => x.Name.Equals(name));
             return user;
@@ -38,12 +38,6 @@ namespace IntelligentFormsAPI.Infrastructure.Repositories
             await context.SaveChangesAsync();
 
             return user;
-        }
-
-        public async Task UpdateUserAsync(User user)
-        {
-            context.Users.Update(user);
-            await context.SaveChangesAsync();
         }
     }
 }

@@ -2,10 +2,12 @@
 using IntelligentFormsAPI.Application.Models.Submission;
 using IntelligentFormsAPI.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace IntelligentFormsAPI.Controllers
 {
-    [Route("api/v1/"), ApiController]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/"), ApiController]
     public class SubmissionsController : ControllerBase
     {
         private readonly ILogger<SubmissionsController> logger;
@@ -17,8 +19,9 @@ namespace IntelligentFormsAPI.Controllers
             this.submissionService = submissionService;
         }
 
+        [SwaggerOperation(Summary = "Create a submission")]
         [HttpPost, Route("submissions")]
-        public async Task<IActionResult> CreateSubmission(SubmissionDto submissionDto, [FromQuery]  Guid formId)
+        public async Task<IActionResult> CreateSubmissionAsync(SubmissionDto submissionDto, [FromQuery]  Guid formId)
         {
             try
             {
@@ -34,8 +37,9 @@ namespace IntelligentFormsAPI.Controllers
             }
         }
 
+        [SwaggerOperation(Summary = "Get a submission by id")]
         [HttpGet, Route("submissions/{submissionId}")]
-        public async Task<IActionResult> GetSubmissionById(Guid submissionId)
+        public async Task<IActionResult> GetSubmissionByIdAsync(Guid submissionId)
         {
             try
             {
@@ -51,12 +55,13 @@ namespace IntelligentFormsAPI.Controllers
             }
         }
 
+        [SwaggerOperation(Summary = "Get all submissions by form id")]
         [HttpGet, Route("submissions")]
         public async Task<IActionResult> GetSubmissionByFormIdAsync([FromQuery]Guid formId)
         {
             try
             {
-                var submissions = await submissionService.GetSubmissionByFormId(formId);
+                var submissions = await submissionService.GetSubmissionByFormIdAsync(formId);
 
                 return Ok(submissions);
             }
@@ -68,12 +73,13 @@ namespace IntelligentFormsAPI.Controllers
             }
         }
 
+        [SwaggerOperation(Summary = "Delete a submission by id")]
         [HttpDelete, Route("Submissions/{submissionId}")]
-        public async Task<IActionResult> DeleteSubmission(Guid submissionId)
+        public async Task<IActionResult> DeleteSubmissionByIdAsync(Guid submissionId)
         {
             try
             {
-                await submissionService.DeleteSubmissionAsync(submissionId);
+                await submissionService.DeleteSubmissionByIdAsync(submissionId);
 
                 return Ok();
             }

@@ -1,11 +1,5 @@
 ﻿using IntelligentFormsAPI.Infrastructure.Interfaces;
-using Microsoft.Azure.Cosmos.Linq;
 using Quartz;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IntelligentFormsAPI.Infrastructure.Quartz
 {
@@ -22,22 +16,14 @@ namespace IntelligentFormsAPI.Infrastructure.Quartz
 
         public async Task Execute(IJobExecutionContext context)
         {
-            var ts = new TimeSpan();
             var forms = await formsRepository.GetAllFormsAsync();
-            foreach(var form in forms)
+            foreach (var form in forms)
             {
                 var formDataRetentionPeriod = form.DataRetentionPeriod;
                 var submissions = await submissionsRepository.GetSubmissionByFormIdAsync(form.Id);
 
-                foreach(var submission in submissions)
-                {
-                    ts = DateTime.Now - submission.TimeStamp;
-
-                    if(ts.Days > formDataRetentionPeriod)
-                    {
-                        await submissionsRepository.DeleteSubmissionAsync(submission);
-                    }  
-                }
+                await submissionsRepository.DeleteSubmissionsAsync(submissions.Where(s =>
+                (DateTime.Now - s.TimeStamp).Days > formDataRetentionPeriod).ToList());
             }
         }
     }

@@ -15,7 +15,7 @@ namespace IntelligentFormsAPI.Infrastructure.Repositories
             this.efContext = efContext;
         }
 
-        public async Task<Form> CreateForm(Form form)
+        public async Task<Form> CreateFormAsync(Form form)
         {
             efContext.FormTemplates.Add(form);
             await efContext.SaveChangesAsync();
@@ -42,14 +42,14 @@ namespace IntelligentFormsAPI.Infrastructure.Repositories
             return form;
         }
 
-        public async Task<List<Form>?> GetFormsByUserId(Guid userId)
+        public async Task<List<Form>?> GetFormsByUserIdAsync(Guid userId)
         {
             var forms = await efContext.FormTemplates.Where(x => x.UserId == userId).ToListAsync();
 
             return forms;
         }
 
-        public async Task<Form> UpdateForm(Form form)
+        public async Task<Form> UpdateFormByIdAsync(Form form)
         {
             efContext.FormTemplates.Update(form);
             await efContext.SaveChangesAsync();

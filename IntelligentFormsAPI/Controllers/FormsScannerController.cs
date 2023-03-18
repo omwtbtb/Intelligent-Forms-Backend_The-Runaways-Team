@@ -1,10 +1,12 @@
 ﻿using IntelligentFormsAPI.Application.Interfaces;
 using IntelligentFormsAPI.Domain.Enums;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace IntelligentFormsAPI.Controllers
 {
-    [Route("api/v1/"), ApiController]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/"), ApiController]
     public class FormsScannerController : ControllerBase
     {
         private readonly ILogger<FormsScannerController> logger;
@@ -16,8 +18,9 @@ namespace IntelligentFormsAPI.Controllers
             this.formsScannerService = formsScannerService;
         }
 
+        [SwaggerOperation(Summary = "Scan a form")]
         [HttpPost, Route("forms-scanner")]
-        public async Task<IActionResult> ScanIdentityCard(IFormFile file, [FromQuery] string documentType)
+        public async Task<IActionResult> ScanFormAsync(IFormFile file, [FromQuery] string documentType)
         {
             try
             {
