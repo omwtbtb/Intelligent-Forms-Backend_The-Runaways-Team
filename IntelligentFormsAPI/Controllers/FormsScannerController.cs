@@ -1,6 +1,7 @@
-﻿using IntelligentFormsAPI.Application.Interfaces;
+using IntelligentFormsAPI.Application.Interfaces;
 using IntelligentFormsAPI.Domain.Enums;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace IntelligentFormsAPI.Controllers
 {
@@ -17,8 +18,9 @@ namespace IntelligentFormsAPI.Controllers
             this.formsScannerService = formsScannerService;
         }
 
+        [SwaggerOperation(Summary = "Scan a form")]
         [HttpPost, Route("forms-scanner")]
-        public async Task<IActionResult> ScanIdentityCard(IFormFile file, [FromQuery] string documentType)
+        public async Task<IActionResult> ScanFormAsync(IFormFile file, [FromQuery] string documentType)
         {
             try
             {

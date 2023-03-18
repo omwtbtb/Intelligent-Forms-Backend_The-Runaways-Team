@@ -9,21 +9,24 @@ namespace IntelligentFormsAPI.Application.Services
 {
     public class FormsService : IFormsService
     {
-        private readonly IFormsRepository formRepository;
+        private readonly IFormsRepository formsRepository;
+        private readonly IUsersRepository usersRepository;
+        private readonly ISubmissionsRepository submissionsRepository;
         private readonly IMapper mapper;
-        private readonly IUsersRepository userRepository;
 
-        public FormsService(IFormsRepository formRepository, IMapper mapper,
-        IUsersRepository userRepository)
+        public FormsService(IFormsRepository formRepository, IUsersRepository usersRepository,
+        ISubmissionsRepository submissionsRepository, IMapper mapper)
         {
-            this.formRepository = formRepository;
+            this.formsRepository = formRepository;
+            this.usersRepository = usersRepository;
+            this.submissionsRepository = submissionsRepository;
             this.mapper = mapper;
-            this.userRepository = userRepository;
+            
         }
 
-        public async Task<FormCreateResponseDto?> AddForm(FormDto formDto, Guid userId)
+        public async Task<FormCreateResponseDto?> CreateFormAsync(FormDto formDto, Guid userId)
         {
-            var user = await userRepository.GetUserById(userId);
+            var user = await usersRepository.GetUserByIdAsync(userId);
 
             if (user is null)
                 throw new ArgumentException("User not found");
@@ -31,41 +34,45 @@ namespace IntelligentFormsAPI.Application.Services
             var form = mapper.Map<Form>(formDto);
             form.UserId = userId;
 
-            var savedForm = await formRepository.CreateForm(form);
+            var savedForm = await formsRepository.CreateFormAsync(form);
 
             return mapper.Map<FormCreateResponseDto>(savedForm);
         }
         
         public async Task<List<FormCreateResponseDto>?> GetFormsByUserIdAsync(Guid userID)
         {
-            var forms = await formRepository.GetFormsByUserId(userID);
+            var forms = await formsRepository.GetFormsByUserIdAsync(userID);
 
             return mapper.Map<List<FormCreateResponseDto>>(forms);
         }
 
-        public async Task DeleteForm(Guid Id)
+        public async Task DeleteFormByIdAsync(Guid Id)
         {
-            var form = await formRepository.GetFormByIdAsync(Id);
+            var form = await formsRepository.GetFormByIdAsync(Id);
 
-            await formRepository.DeleteFormByIdAsync(form);
+            await formsRepository.DeleteFormByIdAsync(form);
+
+            var submissions = await submissionsRepository.GetSubmissionByFormIdAsync(form.Id);
+
+            await submissionsRepository.DeleteSubmissionsAsync(submissions);
         }
-        public async Task UpdateForm(Guid Id, FormDto formDto)
+        public async Task UpdateFormByIdAsync(Guid Id, FormDto formDto)
         {
 
-            var form = await formRepository.GetFormByIdAsync(Id);
+            var form = await formsRepository.GetFormByIdAsync(Id);
 
             if (form is null)
                 throw new ArgumentException("Form does not exist");
 
             mapper.Map(formDto, form);
 
-            await formRepository.UpdateForm(form);
+            await formsRepository.UpdateFormByIdAsync(form);
 
         }
 
-        public async Task<FormCreateResponseDto?> GetForm(Guid Id)
+        public async Task<FormCreateResponseDto?> GetFormByIdAsync(Guid Id)
         {
-            var form = await formRepository.GetFormByIdAsync(Id);
+            var form = await formsRepository.GetFormByIdAsync(Id);
 
             return mapper.Map<FormCreateResponseDto>(form);
         }

@@ -24,7 +24,7 @@ namespace IntelligentFormsAPI.Controllers
 
         [HttpPost, Route("signup")]
         [SwaggerOperation(Summary = "Sign up a new user")]
-        public async Task<IActionResult> SignUp(UserSignUpDto userSignUpDto)
+        public async Task<IActionResult> SignUpAsync(UserSignUpDto userSignUpDto)
         {
             try
             {
@@ -47,7 +47,7 @@ namespace IntelligentFormsAPI.Controllers
 
         [SwaggerOperation(Summary = "Sign in a user")]
         [HttpPost, Route("signin")]
-        public async Task<IActionResult> SignIn(UserSignInDto signInDto)
+        public async Task<IActionResult> SignInAsync(UserSignInDto signInDto)
         {
             try
             {
@@ -63,31 +63,13 @@ namespace IntelligentFormsAPI.Controllers
             }
         }
 
-        [SwaggerOperation(Summary = "Update a user by id")]
-        [HttpPatch, Route("{id}")]
-        public async Task<IActionResult> UpdateUser(Guid id, dynamic patchUserDto)
-        {
-            try
-            {
-                await userService.UpdateUserAsync(id, patchUserDto);
-
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex.Message);
-
-                return BadRequest();
-            }
-        }
-
         [SwaggerOperation(Summary = "Get a user by id")]
         [HttpGet, Route("{id}")]
-        public async Task<IActionResult> GetUserById(Guid id)
+        public async Task<IActionResult> GetUserByIdAsync(Guid id)
         {
             try
             {
-                var userDto = await userService.GetUserById(id);
+                var userDto = await userService.GetUserByIdAsync(id);
 
                 return Ok(userDto);
             }

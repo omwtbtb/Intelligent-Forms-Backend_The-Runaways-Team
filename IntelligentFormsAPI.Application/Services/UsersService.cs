@@ -19,9 +19,9 @@ namespace IntelligentFormsAPI.Application.Services
             this.mapper = mapper;
         }
 
-        public async Task<UserDto> GetUserById(Guid id)
+        public async Task<UserDto> GetUserByIdAsync(Guid id)
         {
-            var user = await userRepository.GetUserById(id);
+            var user = await userRepository.GetUserByIdAsync(id);
             return mapper.Map<UserDto>(user);
         }
 
@@ -51,27 +51,13 @@ namespace IntelligentFormsAPI.Application.Services
             if (user is not null)
                 throw new InvalidOperationException("Account with provided email already exists");
 
-            user = await userRepository.GetUserByName(userSignUpDto.Name);
+            user = await userRepository.GetUserByNameAsync(userSignUpDto.Name);
             if (user is not null)
                 throw new InvalidOperationException("Account with provided name already exists");
 
             user = mapper.Map<User>(userSignUpDto);
 
             await userRepository.CreateUserAsync(user);
-        }
-
-        public async Task<User> UpdateUserAsync(Guid id, dynamic userPatchDto)
-        {
-            var patchUserDto = JsonConvert.DeserializeObject<UserPatchDto>(userPatchDto.ToString());
-            var user = await userRepository.GetUserById(id);
-            if (user != null)
-            {
-                var mappedUser = mapper.Map<UserPatchDto, User>(patchUserDto, user);
-                await userRepository.UpdateUserAsync(mappedUser);
-                return mappedUser;
-            }
-
-            return null;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using IntelligentFormsAPI.Domain.Entities;
+using IntelligentFormsAPI.Domain.Entities;
 using IntelligentFormsAPI.Infrastructure.Contexts;
 using IntelligentFormsAPI.Infrastructure.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +27,13 @@ namespace IntelligentFormsAPI.Infrastructure.Repositories
             eFContext.Submissions.Remove(submission);
             
             await eFContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteSubmissionsAsync(List<Submission> submissions)
+        {
+            eFContext.Submissions.RemoveRange(submissions);
+
+            await eFContext.SaveChangesAsync(); 
         }
 
         public async Task<List<Submission>> GetSubmissionByFormIdAsync(Guid formId)
