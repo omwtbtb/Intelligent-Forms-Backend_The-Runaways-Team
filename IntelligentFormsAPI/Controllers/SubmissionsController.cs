@@ -5,7 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IntelligentFormsAPI.Controllers
 {
-    [Route("api/v1/"), ApiController]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/"), ApiController]
     public class SubmissionsController : ControllerBase
     {
         private readonly ILogger<SubmissionsController> logger;
