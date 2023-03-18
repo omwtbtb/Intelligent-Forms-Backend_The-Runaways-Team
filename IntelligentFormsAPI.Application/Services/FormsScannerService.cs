@@ -1,4 +1,4 @@
-﻿using Azure;
+using Azure;
 using Azure.AI.FormRecognizer.DocumentAnalysis;
 using IntelligentFormsAPI.Application.Interfaces;
 using Microsoft.AspNetCore.Http;

@@ -1,4 +1,4 @@
-﻿using IntelligentFormsAPI.Application.Interfaces;
+using IntelligentFormsAPI.Application.Interfaces;
 using IntelligentFormsAPI.Application.Models;
 
 using Microsoft.AspNetCore.Mvc;

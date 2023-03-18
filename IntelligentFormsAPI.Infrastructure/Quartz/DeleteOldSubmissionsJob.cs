@@ -1,4 +1,4 @@
-﻿using IntelligentFormsAPI.Infrastructure.Interfaces;
+using IntelligentFormsAPI.Infrastructure.Interfaces;
 using Quartz;
 
 namespace IntelligentFormsAPI.Infrastructure.Quartz
