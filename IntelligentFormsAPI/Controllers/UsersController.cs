@@ -6,7 +6,8 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace IntelligentFormsAPI.Controllers
 {
-    [Route("api/v1/users"), ApiController]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/users"), ApiController]
     public class UsersController : ControllerBase
     {
         private readonly ILogger<UsersController> logger;

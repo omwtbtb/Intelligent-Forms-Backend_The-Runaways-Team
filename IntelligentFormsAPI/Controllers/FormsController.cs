@@ -6,7 +6,8 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace IntelligentFormsAPI.Controllers
 {
-    [Route("api/v1/forms")]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/forms")]
     [ApiController]
     public class FormsController : ControllerBase
     {

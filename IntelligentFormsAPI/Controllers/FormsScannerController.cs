@@ -4,7 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IntelligentFormsAPI.Controllers
 {
-    [Route("api/v1/"), ApiController]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/"), ApiController]
     public class FormsScannerController : ControllerBase
     {
         private readonly ILogger<FormsScannerController> logger;
