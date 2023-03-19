@@ -22,8 +22,6 @@ namespace IntelligentFormsAPI.Controllers
         [HttpPost, Route("forms-scanner")]
         public async Task<IActionResult> ScanFormAsync([FromBody]string fileString, [FromQuery] string documentType)
         {
-            try
-            {
                 var scan = Enum.Parse<ScannableDocumentType>(documentType);
                 var formattedFileString = fileString.Split(',')[1];
 
@@ -47,13 +45,6 @@ namespace IntelligentFormsAPI.Controllers
 
                     default: return BadRequest("Unknown document type");
                 }
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex.Message);
-
-                return BadRequest(ex.Message);
-            }
         }
     }
     
