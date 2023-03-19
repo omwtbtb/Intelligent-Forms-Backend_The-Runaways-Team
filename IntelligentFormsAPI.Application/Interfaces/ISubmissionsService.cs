@@ -1,5 +1,4 @@
-﻿using IntelligentFormsAPI.Application.Models.Submission;
-using IntelligentFormsAPI.Domain.Entities;
+using IntelligentFormsAPI.Application.Models.Submission;
 
 namespace IntelligentFormsAPI.Application.Interfaces
 {

@@ -12,7 +12,7 @@ namespace IntelligentFormsAPI.Application.Models.FormTemplate
     {
         public string SectionName { get; set; } = null!;
         public string Content { get; set; } = null!;
-        public string DocumentType { get; set; } = null!;
+        public string? DocumentType { get; set; }
         public List<FormField> Fields { get; set; } = null!;
     }
 }

@@ -2,6 +2,7 @@
 {
     public enum ScannableDocumentType
     {
+        None,
         Identity_Card,
         Passport_Card,
         Vehicle_Identity_Card,

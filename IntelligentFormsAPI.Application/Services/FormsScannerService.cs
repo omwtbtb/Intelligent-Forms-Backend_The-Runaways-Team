@@ -1,8 +1,6 @@
-﻿using Azure;
+using Azure;
 using Azure.AI.FormRecognizer.DocumentAnalysis;
 using IntelligentFormsAPI.Application.Interfaces;
-using Microsoft.AspNetCore.Http;
-using System.Drawing;
 
 namespace IntelligentFormsAPI.Application.Services
 {

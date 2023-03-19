@@ -1,4 +1,4 @@
-﻿using IntelligentFormsAPI.Domain.Entities;
+using IntelligentFormsAPI.Domain.Entities;
 
 namespace IntelligentFormsAPI.Infrastructure.Interfaces
 {

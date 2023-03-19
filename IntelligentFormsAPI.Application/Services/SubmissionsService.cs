@@ -55,9 +55,9 @@ namespace IntelligentFormsAPI.Application.Services
         public async Task<List<SubmissionRequestDto>> GetSubmissionByFormIdAsync(Guid formId)
         {
             var submissions = await submissionRepository.GetSubmissionByFormIdAsync(formId);
+            submissions = submissions.OrderByDescending(s => s.TimeStamp).ToList();
 
             return mapper.Map<List<SubmissionRequestDto>>(submissions);
         }
     }
 }
-
