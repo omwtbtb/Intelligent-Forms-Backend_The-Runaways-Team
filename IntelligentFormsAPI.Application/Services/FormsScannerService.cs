@@ -24,24 +24,33 @@ namespace IntelligentFormsAPI.Application.Services
                 {
                     if (kvp.Key is not null && kvp.Value is not null)
                     {
-                        if (kvp.Key.Content.Equals("Nume/Nom/Last name"))
+                        try
                         {
-                            var split = kvp.Value.Content.Split("\n");
-                            fieldMap.Add("CNP", split[0]);
-                            fieldMap.Add(kvp.Key.Content, split[1]);
+                            if (kvp.Key.Content.Equals("Nume/Nom/Last name"))
+                            {
+
+                                var split = kvp.Value.Content.Split("\n");
+                                fieldMap.TryAdd("CNP", split[0]);
+                                fieldMap.TryAdd(kvp.Key.Content, split[1]);
+                            }
+                            else if (kvp.Key.Content.Equals("SERIA RB NR"))
+                            {
+                                var split = kvp.Key.Content.Split(" ");
+                                fieldMap.TryAdd(split[0], split[1]);
+                                fieldMap.TryAdd(split[2], kvp.Value.Content);
+                            }
+                            else
+                            {
+                                fieldMap.TryAdd(kvp.Key.Content, kvp.Value.Content);
+                            }
                         }
-                        else if (kvp.Key.Content.Equals("SERIA RB NR"))
+                        catch
                         {
-                            var split = kvp.Key.Content.Split(" ");
-                            fieldMap.Add(split[0], split[1]);
-                            fieldMap.Add(split[2], kvp.Value.Content);
-                        }
-                        else
-                        {
-                            fieldMap.Add(kvp.Key.Content, kvp.Value.Content);
+                            fieldMap.TryAdd(kvp.Key.Content, kvp.Value.Content);
                         }
                     }
                 }
+            
 
                 return fieldMap;
             }
@@ -65,7 +74,7 @@ namespace IntelligentFormsAPI.Application.Services
 
                 foreach (var item in identityDocument.Fields)
                 {
-                    fieldMap.Add(item.Key, item.Value.Content);
+                    fieldMap.TryAdd(item.Key, item.Value.Content);
                 }
 
                 return fieldMap;
