@@ -13,6 +13,5 @@ namespace IntelligentFormsAPI.Application.Models
         public string FormTitle { get; set; } = null!;
         public int DataRetentionPeriod { get; set; }
         public List<SectionDto> Sections { get; set; } = null!;
-
     }
 }
