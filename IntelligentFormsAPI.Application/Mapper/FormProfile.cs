@@ -15,7 +15,9 @@ namespace IntelligentFormsAPI.Application.Mapper
             CreateMap<FormDto, Form>();
 
 
-            CreateMap<Form, FormCreateResponseDto>();
+            CreateMap<Form, FormCreateResponseDto>()
+             .ForMember(dest => dest.TimeStamp,
+                opt => opt.MapFrom(src => Convert.ToString(src.TimeStamp)));
 
             CreateMap<SectionDto, Section>()
                 .ForMember(dest => dest.DocumentType,

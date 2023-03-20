@@ -33,7 +33,8 @@ namespace IntelligentFormsAPI.Application.Services
 
             var form = mapper.Map<Form>(formDto);
             form.UserId = userId;
-
+            form.TimeStamp = DateTime.UtcNow;
+            
             var savedForm = await formsRepository.CreateFormAsync(form);
 
             return mapper.Map<FormCreateResponseDto>(savedForm);
@@ -56,6 +57,7 @@ namespace IntelligentFormsAPI.Application.Services
 
             await submissionsRepository.DeleteSubmissionsAsync(submissions);
         }
+        
         public async Task UpdateFormByIdAsync(Guid Id, FormDto formDto)
         {
 

@@ -13,7 +13,7 @@ namespace IntelligentFormsAPI.Application.Mapper
             .ForMember(dest => dest.Content,
                 opt => opt.MapFrom(src => Encoding.UTF8.GetString(Convert.FromBase64String(src.Content))))
             .ForMember(dest => dest.TimeStamp,
-                opt => opt.MapFrom(src => src.TimeStamp.ToString("dd/MM/yy H:mm")));
+                opt => opt.MapFrom(src => src.TimeStamp.ToString("yyyy/MM/dd HH:mm")));
 
 
             CreateMap<SubmissionDto, Submission>()
