@@ -76,7 +76,6 @@ namespace IntelligentFormsAPI.Controllers
 
         [SwaggerOperation(Summary = "Update a form")]
         [HttpPut("{id}")]
-
         public async Task<IActionResult> UpdateFormByIdAsync([FromBody] FormDto formDto, Guid id)
         {
             try
