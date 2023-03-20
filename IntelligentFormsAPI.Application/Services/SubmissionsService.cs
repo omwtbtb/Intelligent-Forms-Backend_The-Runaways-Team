@@ -45,7 +45,7 @@ namespace IntelligentFormsAPI.Application.Services
 
             var submission = mapper.Map<Submission>(submissionDto);
             submission.FormId = formId;
-            submission.TimeStamp = DateTime.Now;
+            submission.TimeStamp = DateTime.UtcNow;
 
             var savedSubmission = await submissionRepository.CreateSubmissionAsync(submission);
 
