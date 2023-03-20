@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using IntelligentFormsAPI.Application.Models;
 using IntelligentFormsAPI.Application.Models.Form;
 using IntelligentFormsAPI.Application.Models.FormTemplate;
@@ -17,7 +17,7 @@ namespace IntelligentFormsAPI.Application.Mapper
 
             CreateMap<Form, FormCreateResponseDto>()
              .ForMember(dest => dest.TimeStamp,
-                opt => opt.MapFrom(src => Convert.ToString(src.TimeStamp)));
+                opt => opt.MapFrom(src => src.TimeStamp==null? "": src.TimeStamp.Value.ToString("yyyy/MM/dd HH:mm")));
 
             CreateMap<SectionDto, Section>()
                 .ForMember(dest => dest.DocumentType,

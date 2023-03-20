@@ -36,6 +36,7 @@ namespace IntelligentFormsAPI.Application.Services
             form.TimeStamp = DateTime.UtcNow;
             
             var savedForm = await formsRepository.CreateFormAsync(form);
+        
 
             return mapper.Map<FormCreateResponseDto>(savedForm);
         }
@@ -44,7 +45,11 @@ namespace IntelligentFormsAPI.Application.Services
         {
             var forms = await formsRepository.GetFormsByUserIdAsync(userID);
 
-            return mapper.Map<List<FormCreateResponseDto>>(forms);
+            var formsDto = mapper.Map<List<FormCreateResponseDto>>(forms);
+
+            var sortedformsDto = formsDto.OrderByDescending(f => f.TimeStamp==""? 0:1).ToList();
+
+            return sortedformsDto;
         }
 
         public async Task DeleteFormByIdAsync(Guid Id)
