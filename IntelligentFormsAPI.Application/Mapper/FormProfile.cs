@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using IntelligentFormsAPI.Application.Models;
 using IntelligentFormsAPI.Application.Models.Form;
 using IntelligentFormsAPI.Application.Models.FormTemplate;
