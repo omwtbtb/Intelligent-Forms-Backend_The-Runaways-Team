@@ -23,7 +23,7 @@ namespace IntelligentFormsAPI.Infrastructure.Quartz
                 var submissions = await submissionsRepository.GetSubmissionByFormIdAsync(form.Id);
 
                 await submissionsRepository.DeleteSubmissionsAsync(submissions.Where(s =>
-                (DateTime.Now - s.TimeStamp).Days > formDataRetentionPeriod).ToList());
+                (DateTime.Now - s.TimeStamp).Days >= formDataRetentionPeriod).ToList());
             }
         }
     }
